@@ -24,6 +24,7 @@ public class PlatformGenerator : MonoBehaviour {
 	private float heightChange;
 
 	private CoinGenerator coinGenerator;
+	private DiamondGenerator diamondGenerator;
 
 	// Use this for initialization
 	void Start ()
@@ -38,6 +39,7 @@ public class PlatformGenerator : MonoBehaviour {
 		maxHeight = maxHeightPoint.position.y;
 
 		coinGenerator = FindObjectOfType<CoinGenerator> ();
+		diamondGenerator = FindObjectOfType<DiamondGenerator> ();
 	}
 	
 	// Update is called once per frame
@@ -69,6 +71,12 @@ public class PlatformGenerator : MonoBehaviour {
 
 			if (Random.Range (0f, 100f) < randomCoinThreshold) {
 				coinGenerator.SpawnCoins (new Vector3 (
+					transform.position.x,
+					transform.position.y + 1f,
+					transform.position.z
+				));
+			} else {
+				diamondGenerator.SpawnDiamonds (new Vector3(
 					transform.position.x,
 					transform.position.y + 1f,
 					transform.position.z
