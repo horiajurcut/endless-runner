@@ -51,7 +51,6 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-//		grounded = Physics2D.IsTouchingLayers (myCollider, whatIsGround);
 		grounded = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, whatIsGround);
 
 		if (transform.position.x > speedMilestoneCount) {

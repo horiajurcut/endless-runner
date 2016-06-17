@@ -19,11 +19,6 @@ public class GameManager : MonoBehaviour {
 
 		scoreManager = FindObjectOfType<ScoreManager> ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	public void RestartGame()
 	{
