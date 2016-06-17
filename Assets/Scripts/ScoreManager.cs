@@ -15,6 +15,7 @@ public class ScoreManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+//		PlayerPrefs.SetFloat ("HighScore", 0);
 		if (PlayerPrefs.HasKey("HighScore")) {
 			highScoreCount = PlayerPrefs.GetFloat ("HighScore");
 		}
