@@ -27,6 +27,9 @@ public class PlayerController : MonoBehaviour {
 	private float speedMilestoneCountStore;
 	private float speedIncreaseMilestoneStore;
 
+	private bool stoppedJumping;
+	private bool canDoubleJump;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -40,6 +43,9 @@ public class PlayerController : MonoBehaviour {
 		moveSpeedStore = moveSpeed;
 		speedMilestoneCountStore = speedMilestoneCount;
 		speedIncreaseMilestoneStore = speedIncreaseMilestone;
+
+		stoppedJumping = true;
+		canDoubleJump = true;
 	}
 	
 	// Update is called once per frame
@@ -59,10 +65,20 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) {
 			if (grounded) {
 				myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, jumpForce);
+				stoppedJumping = false;
+			}
+
+			if (!grounded && canDoubleJump) {
+				myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, jumpForce);
+
+				jumpTimeCounter = jumpTime;
+
+				stoppedJumping = false;
+				canDoubleJump = false;
 			}
 		}
 
-		if (Input.GetKey (KeyCode.Space) || Input.GetMouseButton (0)) {
+		if ((Input.GetKey (KeyCode.Space) || Input.GetMouseButton (0)) && !stoppedJumping) {
 			if (jumpTimeCounter > 0) {
 				myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, jumpForce);
 				jumpTimeCounter -= Time.deltaTime;
@@ -71,10 +87,12 @@ public class PlayerController : MonoBehaviour {
 
 		if (Input.GetKeyUp (KeyCode.Space) || Input.GetMouseButtonUp (0)) {
 			jumpTimeCounter = 0;
+			stoppedJumping = true;
 		}
 
 		if (grounded) {
 			jumpTimeCounter = jumpTime;
+			canDoubleJump = true;
 		}
 
 		myAnimator.SetFloat ("Speed", myRigidbody.velocity.x);
