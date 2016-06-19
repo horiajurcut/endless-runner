@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
 	private PlatformDestroyer[] platformList;
 	private ScoreManager scoreManager;
 	private AudioSource backgroundMusic;
+	private BackgroundScroller[] backgroundScrollers;
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour {
 
 		scoreManager = FindObjectOfType<ScoreManager> ();
 		backgroundMusic = GameObject.Find ("BackgroundMusic").GetComponent<AudioSource> ();
+		backgroundScrollers = FindObjectsOfType<BackgroundScroller> ();
 	}
 
 	public void RestartGame()
@@ -29,14 +31,20 @@ public class GameManager : MonoBehaviour {
 		scoreManager.scoreIncreasing = false;
 		player.gameObject.SetActive (false);
 
-		deathMenu.gameObject.SetActive (true);
 		backgroundMusic.Pause ();
+		for (int i = 0; i < backgroundScrollers.Length; i++) {
+			backgroundScrollers[i].Pause ();
+		}
+		deathMenu.gameObject.SetActive (true);
 	}
 
 	public void Reset ()
 	{
-		deathMenu.gameObject.SetActive (false);
 		backgroundMusic.Play ();
+		for (int i = 0; i < backgroundScrollers.Length; i++) {
+			backgroundScrollers[i].Scroll ();
+		}
+		deathMenu.gameObject.SetActive (false);
 
 		platformList = FindObjectsOfType<PlatformDestroyer> ();
 

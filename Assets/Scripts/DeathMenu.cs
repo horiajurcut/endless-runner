@@ -16,6 +16,8 @@ public class DeathMenu : MonoBehaviour {
 	public void RestartGame ()
 	{
 		FindObjectOfType<GameManager> ().Reset ();
+		backgroundMusic.Stop ();
+		backgroundMusic.Play ();
 	}
 
 	public void QuitToMainMenu ()
