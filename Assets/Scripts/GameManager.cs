@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
 
 	private PlatformDestroyer[] platformList;
 	private ScoreManager scoreManager;
+	private AudioSource backgroundMusic;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour {
 		playerStartPoint = player.transform.position;
 
 		scoreManager = FindObjectOfType<ScoreManager> ();
+		backgroundMusic = GameObject.Find ("BackgroundMusic").GetComponent<AudioSource> ();
 	}
 
 	public void RestartGame()
@@ -28,11 +30,13 @@ public class GameManager : MonoBehaviour {
 		player.gameObject.SetActive (false);
 
 		deathMenu.gameObject.SetActive (true);
+		backgroundMusic.Pause ();
 	}
 
 	public void Reset ()
 	{
 		deathMenu.gameObject.SetActive (false);
+		backgroundMusic.Play ();
 
 		platformList = FindObjectsOfType<PlatformDestroyer> ();
 

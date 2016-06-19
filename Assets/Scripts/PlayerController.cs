@@ -17,8 +17,10 @@ public class PlayerController : MonoBehaviour {
 
 	public GameManager gameManager;
 
+	public AudioSource jumpSound;
+	public AudioSource deathSound;
+
 	private Rigidbody2D myRigidbody;
-//	private Collider2D myCollider;
 	private Animator myAnimator;
 	private float jumpTimeCounter;
 	private float speedMilestoneCount;
@@ -34,7 +36,6 @@ public class PlayerController : MonoBehaviour {
 	void Start ()
 	{
 		myRigidbody = GetComponent<Rigidbody2D> ();
-//		myCollider = GetComponent<Collider2D> ();
 		myAnimator = GetComponent<Animator> ();
 
 		jumpTimeCounter = jumpTime;
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour {
 			if (grounded) {
 				myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, jumpForce);
 				stoppedJumping = false;
+				jumpSound.Play ();
 			}
 
 			if (!grounded && canDoubleJump) {
@@ -74,6 +76,7 @@ public class PlayerController : MonoBehaviour {
 
 				stoppedJumping = false;
 				canDoubleJump = false;
+				jumpSound.Play ();
 			}
 		}
 
@@ -106,6 +109,8 @@ public class PlayerController : MonoBehaviour {
 			moveSpeed = moveSpeedStore;
 			speedMilestoneCount = speedMilestoneCountStore;
 			speedIncreaseMilestone = speedIncreaseMilestoneStore;
+
+			deathSound.Play ();
 		}
 	}
 }

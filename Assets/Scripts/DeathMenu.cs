@@ -6,6 +6,13 @@ public class DeathMenu : MonoBehaviour {
 
 	public string mainMenuLevel;
 
+	private AudioSource backgroundMusic;
+
+	void Start ()
+	{
+		backgroundMusic = GameObject.Find ("BackgroundMusic").GetComponent<AudioSource> ();
+	}
+
 	public void RestartGame ()
 	{
 		FindObjectOfType<GameManager> ().Reset ();
