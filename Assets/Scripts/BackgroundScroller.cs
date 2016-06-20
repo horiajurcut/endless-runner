@@ -34,7 +34,7 @@ public class BackgroundScroller : MonoBehaviour {
 
 	public void Pause ()
 	{
-		speed = 0f;
+		speed = 0.1f;
 	}
 
 	public void Scroll ()

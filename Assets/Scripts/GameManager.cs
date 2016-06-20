@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -16,7 +17,9 @@ public class GameManager : MonoBehaviour {
 	private AudioSource backgroundMusic;
 	private BackgroundScroller[] backgroundScrollers;
 
-	// Use this for initialization
+	private GameObject pauseButton;
+	private Text endScore;
+
 	void Start () {
 		platformStartPoint = platformGenerator.position;
 		playerStartPoint = player.transform.position;
@@ -24,6 +27,9 @@ public class GameManager : MonoBehaviour {
 		scoreManager = FindObjectOfType<ScoreManager> ();
 		backgroundMusic = GameObject.Find ("BackgroundMusic").GetComponent<AudioSource> ();
 		backgroundScrollers = FindObjectsOfType<BackgroundScroller> ();
+
+		pauseButton = GameObject.Find ("PauseButton");
+		endScore = deathMenu.transform.FindChild ("EndScore").GetComponent<Text> ();
 	}
 
 	public void RestartGame()
@@ -35,7 +41,10 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < backgroundScrollers.Length; i++) {
 			backgroundScrollers[i].Pause ();
 		}
+
+		pauseButton.SetActive (false);
 		deathMenu.gameObject.SetActive (true);
+		endScore.text = "" + Mathf.Round(scoreManager.scoreCount);
 	}
 
 	public void Reset ()
@@ -45,6 +54,7 @@ public class GameManager : MonoBehaviour {
 			backgroundScrollers[i].Scroll ();
 		}
 		deathMenu.gameObject.SetActive (false);
+		pauseButton.SetActive (true);
 
 		platformList = FindObjectsOfType<PlatformDestroyer> ();
 
@@ -59,25 +69,4 @@ public class GameManager : MonoBehaviour {
 		scoreManager.scoreCount = 0;
 		scoreManager.scoreIncreasing = true;
 	}
-
-//	public IEnumerator RestartGameCoroutine()
-//	{
-//		scoreManager.scoreIncreasing = false;
-//		player.gameObject.SetActive (false);
-//
-//		yield return new WaitForSeconds (0.5f);
-//
-//		platformList = FindObjectsOfType<PlatformDestroyer> ();
-//
-//		for (int i = 0; i < platformList.Length; i++) {
-//			platformList [i].gameObject.SetActive (false);
-//		}
-//
-//		player.transform.position = playerStartPoint;
-//		platformGenerator.position = platformStartPoint;
-//
-//		player.gameObject.SetActive (true);
-//		scoreManager.scoreCount = 0;
-//		scoreManager.scoreIncreasing = true;
-//	}
 }

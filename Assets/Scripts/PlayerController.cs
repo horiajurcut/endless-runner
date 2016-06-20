@@ -32,11 +32,14 @@ public class PlayerController : MonoBehaviour {
 	private bool stoppedJumping;
 	private bool canDoubleJump;
 
+	private ParticleSystem jetpack;
+
 	// Use this for initialization
 	void Start ()
 	{
 		myRigidbody = GetComponent<Rigidbody2D> ();
 		myAnimator = GetComponent<Animator> ();
+		jetpack = GameObject.Find ("Jetpack").GetComponent<ParticleSystem> ();
 
 		jumpTimeCounter = jumpTime;
 		speedMilestoneCount = speedIncreaseMilestone;
@@ -67,6 +70,7 @@ public class PlayerController : MonoBehaviour {
 				myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, jumpForce);
 				stoppedJumping = false;
 				jumpSound.Play ();
+				jetpack.Play ();
 			}
 
 			if (!grounded && canDoubleJump) {
@@ -77,6 +81,9 @@ public class PlayerController : MonoBehaviour {
 				stoppedJumping = false;
 				canDoubleJump = false;
 				jumpSound.Play ();
+
+				jetpack.Stop ();
+				jetpack.Play ();
 			}
 		}
 
@@ -90,6 +97,7 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyUp (KeyCode.Space) || Input.GetMouseButtonUp (0)) {
 			jumpTimeCounter = 0;
 			stoppedJumping = true;
+			jetpack.Stop ();
 		}
 
 		if (grounded) {
